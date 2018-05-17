@@ -25,8 +25,12 @@ public class Neuron {
     }
 
     // Taking a value from the previous layer and adding it to the weighted sum
-    public void addToWeightedSum(double value) {
-        weightedSum += value;
+    public void addToWeightedSum(double value, boolean isInput) {
+        if (isInput) {
+            valueToSend = value;
+        } else {
+            weightedSum += value;
+        }
     }
 
     // Applying the activation function to the weighted sum and then resetting it
@@ -37,8 +41,15 @@ public class Neuron {
 
     // Sending the activated value to the neurons in the next layer multiplied by the associated weights
     public void fire() {
+
+        // This if statement is temporary - for debugging purposes
+        if (nextLayer.size() == 0) {
+            System.out.println(valueToSend);
+        }
+
+
         for (Map.Entry<Neuron, Double> entry : nextLayer.entrySet()) {
-            entry.getKey().addToWeightedSum(valueToSend * entry.getValue());
+            entry.getKey().addToWeightedSum(valueToSend * entry.getValue(), false);
         }
     }
 
