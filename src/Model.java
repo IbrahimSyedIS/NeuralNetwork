@@ -17,8 +17,9 @@ public class Model {
     // Adding a layer with the number of neurons as the parameter
     public void addLayer(int size) {
         if (layers.size() == 0) {
-            inputLayer = new Layer(size, true);
-            layers.add(new Layer(size, true));
+            Layer inLayer = new Layer(size, true);
+            inputLayer = inLayer;
+            layers.add(inLayer);
             return;
         }
         layers.add(new Layer(size, false));
