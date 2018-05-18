@@ -19,15 +19,11 @@ public class Main {
             weights = DataInterpreter.getSavedWeights("res/weights.txt");
             xorGate.setWeights(weights);
             xorGate.saveWeights("res/weightsSaved.txt");
-            double[] prediction = xorGate.predict(new double[] {1.0, 0.0});
-            System.out.println(Arrays.toString(prediction));
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
-
-//        xorGate.train(dataSet);
+        double[] prediction = xorGate.predict(new double[] {1.0, 0.0});
+        System.out.println(Arrays.toString(prediction));
     }
 
 
