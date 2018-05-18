@@ -13,9 +13,6 @@ public class DataInterpreter {
             for (int i = 0; i < inputValues.length; i++) {
                 dataset.add(new Double[][] {inputValues[i], expectedOutputs[i]});
             }
-        } catch (FileNotFoundException e) {
-            System.out.println("File Not found");
-            e.printStackTrace();
         } catch (IOException e) {
             System.out.println("IO Exception");
             e.printStackTrace();
@@ -23,7 +20,7 @@ public class DataInterpreter {
         return dataset;
     }
 
-    private static Double[][] getData(String data) throws FileNotFoundException, IOException {
+    private static Double[][] getData(String data) throws IOException {
         ArrayList<Double[]> inputs = new ArrayList<>();
         BufferedReader breader = new BufferedReader(new FileReader(data));
         while (breader.ready()) {
