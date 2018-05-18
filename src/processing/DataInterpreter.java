@@ -20,11 +20,11 @@ public class DataInterpreter {
         return dataset;
     }
 
-    private static Double[][] getData(String data) throws IOException {
+    private static Double[][] getData(String directory) throws IOException {
         ArrayList<Double[]> inputs = new ArrayList<>();
-        BufferedReader breader = new BufferedReader(new FileReader(data));
-        while (breader.ready()) {
-            String[] values = breader.readLine().split(" ");
+        BufferedReader reader = new BufferedReader(new FileReader(directory));
+        while (reader.ready()) {
+            String[] values = reader.readLine().split(" ");
             Double[] doubles = new Double[values.length];
             for (int i = 0; i < values.length; i++) {
                 doubles[i] = Double.parseDouble(values[i]);
@@ -36,6 +36,19 @@ public class DataInterpreter {
             returnValues[i] = inputs.get(i);
         }
         return returnValues;
+    }
+
+    public static Double[] getSavedWeights(String directory) throws IOException {
+        ArrayList<Double> weights = new ArrayList<>();
+        BufferedReader reader = new BufferedReader(new FileReader(directory));
+        while (reader.ready()) {
+            weights.add(Double.parseDouble(reader.readLine()));
+        }
+        Double[] convertedWeights = new Double[weights.size()];
+        for (int i = 0; i < weights.size(); i++) {
+            convertedWeights[i] = weights.get(i);
+        }
+        return convertedWeights;
     }
 
 }

@@ -57,6 +57,10 @@ public class Neuron {
         return valueToSend;
     }
 
+    public LinkedHashMap<Neuron, Double> getNextLayer() {
+        return nextLayer;
+    }
+
     // Sigmoid activation function
     private double sigmoid(double x) {
         return 1d / (1 + Math.exp(-x));

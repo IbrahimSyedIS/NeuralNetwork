@@ -1,6 +1,7 @@
 package network;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 public class Layer {
 
@@ -72,6 +73,24 @@ public class Layer {
             prediction[i] = neurons.get(i).getPrediction();
         }
         return prediction;
+    }
+
+    public ArrayList<Double> getWeights() {
+        ArrayList<Double> weights = new ArrayList<>();
+        for (Neuron neuron : neurons) {
+            for (Map.Entry<Neuron, Double> entry : neuron.getNextLayer().entrySet()) {
+                weights.add(entry.getValue());
+            }
+        }
+        return weights;
+    }
+
+    public void setWeights(ArrayList<Double> weights) {
+        for (Neuron neuron : neurons) {
+            for (Map.Entry<Neuron, Double> entry : neuron.getNextLayer().entrySet()) {
+                entry.setValue(weights.remove(0));
+            }
+        }
     }
 
 }

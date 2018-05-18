@@ -1,7 +1,11 @@
 package network;
 
-import java.util.ArrayList;
-import java.util.InputMismatchException;
+import java.util.*;
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 public class Model {
 
@@ -51,11 +55,34 @@ public class Model {
         }
     }
 
-//    public void train() {
-//        System.out.println("boop");
-//    }
+    public void saveWeights(String directory) throws IOException {
+        PrintWriter writer = new PrintWriter(directory, "UTF-8");
+        ArrayList<ArrayList<Double>> allWeights = new ArrayList<>();
+        for (int i = 0; i < layers.size() - 1; i++) {
+            allWeights.add(layers.get(i).getWeights());
+        }
+       for (ArrayList<Double> weights : allWeights) {
+            for (Double weight : weights) {
+                writer.println(String.valueOf(weight));
+            }
+       }
+       writer.close();
+    }
 
-//    private double[] getFinalValues() {
-//        double[] prediction = new double[layers.get(layers.size() - 1).size()];
-//    }
+    public void setWeights(Double[] weights) {
+        ArrayList<Double> dynamicWeights = new ArrayList<>();
+        Collections.addAll(dynamicWeights, weights);
+        for (Layer layer : layers) {
+            ArrayList<Double> currentWeightsToSend = new ArrayList<>();
+            for (int i = 0; i < layer.getWeights().size(); i++) {
+                currentWeightsToSend.add(dynamicWeights.remove(0));
+            }
+            layer.setWeights(currentWeightsToSend);
+        }
+    }
+
+    // Training the Neural Network through back propagation
+    public void train(ArrayList<Double[][]> dataset) {
+
+    }
 }
