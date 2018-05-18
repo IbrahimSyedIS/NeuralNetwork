@@ -33,13 +33,13 @@ public class Model {
     }
 
     // Taking an array of values and sending them through the model
-    public void predict(double[] data) {
+    public double[] predict(double[] data) {
         if (data.length != inputLayer.size()) {
             throw new InputMismatchException();
         }
         inputLayer.predict(data);
         forwardPropagate();
-
+        return layers.get(layers.size() - 1).getPrediction();
     }
 
     // Facilitating the activation and firing of all the neurons in all the layers
@@ -51,6 +51,5 @@ public class Model {
 
 //    private double[] getFinalValues() {
 //        double[] prediction = new double[layers.get(layers.size() - 1).size()];
-//
 //    }
 }

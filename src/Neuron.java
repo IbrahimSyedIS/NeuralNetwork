@@ -41,16 +41,18 @@ public class Neuron {
 
     // Sending the activated value to the neurons in the next layer multiplied by the associated weights
     public void fire() {
-
-        // This if statement is temporary - for debugging purposes
-        if (nextLayer.size() == 0) {
-            System.out.println(valueToSend);
-        }
-
-
         for (Map.Entry<Neuron, Double> entry : nextLayer.entrySet()) {
             entry.getKey().addToWeightedSum(valueToSend * entry.getValue(), false);
         }
+    }
+
+    public int sizeOfNextLayer() {
+        return nextLayer.size();
+    }
+
+    public double getPrediction() {
+        if (nextLayer.size() != 0) return 0;
+        return valueToSend;
     }
 
     // Sigmoid activation function

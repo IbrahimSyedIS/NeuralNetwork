@@ -61,4 +61,15 @@ public class Layer {
         }
     }
 
+    public double[] getPrediction() {
+        if (neurons.get(0).sizeOfNextLayer() != 0) {
+            return null;
+        }
+        double[] prediction = new double[neurons.size()];
+        for (int i = 0; i < neurons.size(); i++) {
+            prediction[i] = neurons.get(i).getPrediction();
+        }
+        return prediction;
+    }
+
 }
