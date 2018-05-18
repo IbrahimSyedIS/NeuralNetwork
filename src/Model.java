@@ -49,6 +49,10 @@ public class Model {
         }
     }
 
+    public void train() {
+        System.out.println("boop");
+    }
+
 //    private double[] getFinalValues() {
 //        double[] prediction = new double[layers.get(layers.size() - 1).size()];
 //    }
