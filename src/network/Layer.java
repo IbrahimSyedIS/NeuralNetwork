@@ -8,6 +8,9 @@ public class Layer {
     // ArrayList representing all the neurons in this instantiated layer
     private ArrayList<Neuron> neurons;
 
+    private Layer nextLayer;
+    private Layer previousLayer;
+
     private boolean isInput;
 
     // Initializing the neurons ArrayList
@@ -28,11 +31,40 @@ public class Layer {
         neurons.add(n);
     }
 
+    public Neuron getNeuron(int n) {
+        return neurons.get(n);
+    }
+
+    public boolean isInputLayer() {
+        return isInput;
+    }
+
+    public boolean isOutputLayer() {
+        return neurons.get(0).sizeOfNextLayer() == 0;
+    }
+
+    public Layer getNextLayer() {
+        return nextLayer;
+    }
+
+    public ArrayList<Neuron> getNeurons() {
+        return this.neurons;
+    }
     // Connecting all the neurons in this layer to the neurons in the next one
     public void connectToLayer(Layer layer) {
+        this.nextLayer = layer;
         for (Neuron n1 : neurons) {
             for (Neuron n2 : layer.neurons) {
                 n1.connectWeight(n2);
+            }
+        }
+    }
+
+    public void inverseConnectToLayer(Layer layer) {
+        this.previousLayer = layer;
+        for (Neuron currentNeuron : neurons) {
+            for (Neuron prevNeuron : previousLayer.neurons) {
+                currentNeuron.inverseConnectWeight(prevNeuron);
             }
         }
     }

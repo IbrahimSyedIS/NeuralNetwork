@@ -25,11 +25,11 @@ public class DataInterpreter {
         BufferedReader reader = new BufferedReader(new FileReader(directory));
         while (reader.ready()) {
             String[] values = reader.readLine().split(" ");
-            Double[] doubles = new Double[values.length];
+            Double[] input = new Double[values.length];
             for (int i = 0; i < values.length; i++) {
-                doubles[i] = Double.parseDouble(values[i]);
+                input[i] = Double.parseDouble(values[i]);
             }
-            inputs.add(doubles);
+            inputs.add(input);
         }
         Double[][] returnValues = new Double[inputs.size()][inputs.get(0).length];
         for (int i = 0; i < inputs.size(); i++) {
