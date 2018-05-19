@@ -11,7 +11,8 @@ public class SigmoidActivationStrategy implements ActivationStrategy, Serializab
 
     @Override
     public double derivative(double weightedSum) {
-        return weightedSum * (1.0 - weightedSum);
+//        return weightedSum * (1.0 - weightedSum);
+        return activate(weightedSum) * (1.0 - activate(weightedSum));
     }
 
     public SigmoidActivationStrategy copy() {
