@@ -3,6 +3,8 @@ package processing;
 import java.io.*;
 import java.util.ArrayList;
 
+// Will need to be remade to interpret data for a neural network in a modular way
+
 public class DataInterpreter {
 
     public static ArrayList<Double[][]> getDataSet(String data, String dataLabels) {
