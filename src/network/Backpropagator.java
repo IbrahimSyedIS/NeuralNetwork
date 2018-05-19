@@ -5,7 +5,6 @@ package network;
 import network.generator.TrainingDataGenerator;
 import network.generator.TrainingData;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

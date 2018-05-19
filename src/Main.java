@@ -46,7 +46,7 @@ public class Main {
         untrained.setInputs(new double[]{1, 1});
         System.out.println("1 XOR 1: " + (untrained.getOutput()[0]) + "\n");
 
-//        untrained.persist();
+        untrained.persist();
     }
 
     private static NeuralNetwork createXorNeuralNetwork() {
