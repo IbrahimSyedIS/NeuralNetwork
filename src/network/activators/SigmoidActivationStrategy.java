@@ -1,6 +1,8 @@
 package network.activators;
 
-public class SigmoidActivationStrategy implements ActivationStrategy {
+import java.io.Serializable;
+
+public class SigmoidActivationStrategy implements ActivationStrategy, Serializable {
 
     @Override
     public double activate(double weightedSum) {

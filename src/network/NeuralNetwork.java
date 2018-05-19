@@ -118,6 +118,7 @@ public class NeuralNetwork implements Serializable {
 
         int i = 0;
         for(Neuron neuron : output.getNeurons()) {
+            System.out.println("printing ind output " + neuron.getOutput());
             outputs[i] = neuron.getOutput();
             i++;
         }

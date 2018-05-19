@@ -1,6 +1,8 @@
 package network.activators;
 
-public class ThresholdActivationStrategy implements ActivationStrategy {
+import java.io.Serializable;
+
+public class ThresholdActivationStrategy implements ActivationStrategy, Serializable {
 
     private double threshold;
 

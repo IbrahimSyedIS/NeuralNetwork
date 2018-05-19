@@ -5,6 +5,7 @@ package network;
 import network.generator.TrainingDataGenerator;
 import network.generator.TrainingData;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -165,7 +166,6 @@ public class Backpropagator {
         for (int i = 0; i < expected.length; i++) {
             sum += Math.pow(expected[i] - actual[i], 2);
         }
-
         return sum / 2;
     }
 }

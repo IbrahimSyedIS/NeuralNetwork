@@ -1,6 +1,8 @@
 package network.activators;
 
-public class HyperbolicTangentActivationStrategy implements ActivationStrategy {
+import java.io.Serializable;
+
+public class HyperbolicTangentActivationStrategy implements ActivationStrategy, Serializable {
 
     @Override
     public double activate(double weightedSum) {

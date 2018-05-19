@@ -26,25 +26,25 @@ public class Main {
         xorNeuralNetwork.setInputs(new double[]{1, 1});
         System.out.println("1 XOR 1: " + xorNeuralNetwork.getOutput()[0] + "\n");
 
-//        NeuralNetwork untrained = createUntrainedXorNeuralNetwork();
-//        TrainingDataGenerator xorTrainingDataGenerator = new XorTrainingDataGenerator();
-//
-//        Backpropagator backpropagator = new Backpropagator(untrained, 0.1, 0.9, 0);
-//        backpropagator.train(xorTrainingDataGenerator, 0.0001);
-//
-//        System.out.println("Testing trained XOR neural network");
-//
-//        untrained.setInputs(new double[]{0, 0});
-//        System.out.println("0 XOR 0: " + (untrained.getOutput()[0]));
-//
-//        untrained.setInputs(new double[]{0, 1});
-//        System.out.println("0 XOR 1: " + (untrained.getOutput()[0]));
-//
-//        untrained.setInputs(new double[]{1, 0});
-//        System.out.println("1 XOR 0: " + (untrained.getOutput()[0]));
-//
-//        untrained.setInputs(new double[]{1, 1});
-//        System.out.println("1 XOR 1: " + (untrained.getOutput()[0]) + "\n");
+        NeuralNetwork untrained = createUntrainedXorNeuralNetwork();
+        TrainingDataGenerator xorTrainingDataGenerator = new XorTrainingDataGenerator();
+
+        Backpropagator backpropagator = new Backpropagator(untrained, 0.1, 0.9, 0);
+        backpropagator.train(xorTrainingDataGenerator, 0.0001);
+
+        System.out.println("Testing trained XOR neural network");
+
+        untrained.setInputs(new double[]{0, 0});
+        System.out.println("0 XOR 0: " + (untrained.getOutput()[0]));
+
+        untrained.setInputs(new double[]{0, 1});
+        System.out.println("0 XOR 1: " + (untrained.getOutput()[0]));
+
+        untrained.setInputs(new double[]{1, 0});
+        System.out.println("1 XOR 0: " + (untrained.getOutput()[0]));
+
+        untrained.setInputs(new double[]{1, 1});
+        System.out.println("1 XOR 1: " + (untrained.getOutput()[0]) + "\n");
 
 //        untrained.persist();
     }
