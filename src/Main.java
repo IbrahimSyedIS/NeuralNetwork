@@ -2,7 +2,6 @@ import network.Model;
 import processing.DataInterpreter;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Main {
 
@@ -22,7 +21,7 @@ public class Main {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Double[] prediction = xorGate.predict(new Double[] {1.0, 0.0});
+//        Double[] prediction = xorGate.predict(new Double[] {1.0, 0.0});
 //        System.out.println(Arrays.toString(prediction));
     }
 
