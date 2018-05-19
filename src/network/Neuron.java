@@ -1,111 +1,81 @@
 package network;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
+import network.activators.ActivationStrategy;
 
-public class Neuron {
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
-    // Linked Hash Map representing the next layer of neurons and the associated weights
-    private LinkedHashMap<Neuron, Double> nextLayer;
-    private LinkedHashMap<Neuron, Double> lastLayer;
+public class Neuron implements Serializable {
 
-    // The sum accumulated from the neurons in the last layer
-    private Double weightedSum;
-
-    private Double error;
-
-    // The weighted sum but with the activation function applied
-    private Double valueToSend;
-
-    private Double derivative;
+    private List<Synapse> inputs;
+    private ActivationStrategy activationStrategy;
+    private double output;
+    private double derivative;
+    private double weightedSum;
+    private double error;
 
     // Initializing all the variables
-    public Neuron() {
-        nextLayer = new LinkedHashMap<>();
-        lastLayer = new LinkedHashMap<>();
-        weightedSum = 0d;
-        valueToSend = 0d;
+    public Neuron(ActivationStrategy strategy) {
+        inputs = new ArrayList<>();
+        this.activationStrategy = strategy;
+        error = 0;
     }
 
-    // Adding a neuron from the next layer to this neurons connections
-    public void connectWeight(Neuron n) {
-        nextLayer.put(n, Math.random());
+    public void addInput(Synapse in) {
+        inputs.add(in);
     }
 
-    public void updateIncomingWeights() {
-        for (Map.Entry<Neuron, Double> incoming : lastLayer.entrySet()) {
-            for (Map.Entry<Neuron, Double> entry : incoming.getKey().nextLayer.entrySet()) {
-                if (entry.getKey() == this) {
-                    System.out.println("Found a match");
-                    entry.setValue(incoming.getValue());
-                }
-            }
+    public List<Synapse> getInputs() {
+        return inputs;
+    }
+
+    public double[] getWeights() {
+        double[] weights = new double[inputs.size()];
+
+        for (int i = 0; i < weights.length; i++) {
+            weights[i] = inputs.get(i).getWeight();
         }
+
+        return weights;
     }
 
-    public void inverseConnectWeight(Neuron n) {
-        lastLayer.put(n, n.nextLayer.get(this));
-    }
-
-    public LinkedHashMap<Neuron, Double> getInputs() {
-        return lastLayer;
-    }
-
-    // Taking a value from the previous layer and adding it to the weighted sum
-    public void addToWeightedSum(Double value, boolean isInput) {
-        if (isInput) {
-            valueToSend = value;
-        } else {
-            weightedSum += value;
+    public void calculateWeightedSum() {
+        weightedSum = 0;
+        for (Synapse synapse : inputs) {
+            weightedSum += synapse.getWeight() * synapse.getSourceNeuron().getOutput();
         }
     }
 
     // Applying the activation function to the weighted sum and then resetting it
     public void activate() {
-        valueToSend = sigmoid(weightedSum);
-        derivative = sigmoidDerivative(weightedSum);
-        weightedSum = 0d;
+        calculateWeightedSum();
+        output = activationStrategy.activate(weightedSum);
+        derivative = activationStrategy.derivative(weightedSum);
+    }
+
+    public double getOutput() {
+        return this.output;
+    }
+
+    public void setOutput(double out) {
+        this.output = out;
     }
 
     public Double getDerivative() {
         return derivative;
     }
 
-    public void setError(Double x) {
-        error = x;
+    public ActivationStrategy getActivationStrategy() {
+        return this.activationStrategy;
     }
 
     public Double getError() {
         return error;
     }
 
-    // Sending the activated value to the neurons in the next layer multiplied by the associated weights
-    public void fire() {
-        for (Map.Entry<Neuron, Double> entry : nextLayer.entrySet()) {
-            entry.getKey().addToWeightedSum(valueToSend * entry.getValue(), false);
-        }
-    }
-
-    public int sizeOfNextLayer() {
-        return nextLayer.size();
-    }
-
-    public Double getPrediction() {
-        if (nextLayer.size() != 0) return 0d;
-        return valueToSend;
-    }
-
-    public LinkedHashMap<Neuron, Double> getNextLayer() {
-        return nextLayer;
-    }
-
-    // Sigmoid activation function
-    private Double sigmoid(Double x) {
-        return 1d / (1 + Math.exp(-x));
-    }
-
-    private Double sigmoidDerivative(Double x) {
-        return sigmoid(x) * (1 - sigmoid(x));
+    public void setError(Double x) {
+        error = x;
     }
 
 }

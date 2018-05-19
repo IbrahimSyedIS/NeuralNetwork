@@ -1,128 +1,92 @@
 package network;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
-public class Layer {
+public class Layer implements Serializable {
 
     // ArrayList representing all the neurons in this instantiated layer
-    private ArrayList<Neuron> neurons;
-
-    private Layer nextLayer;
+    private List<Neuron> neurons;
     private Layer previousLayer;
-
-    private boolean isInput;
+    private Layer nextLayer;
+    private Neuron bias;
 
     // Initializing the neurons ArrayList
-    public Layer(boolean isInputLayer) {
+    public Layer() {
         neurons = new ArrayList<>();
-        isInput = isInputLayer;
+        previousLayer = null;
     }
 
-    public Layer(int size, boolean isInputLayer) {
-        this(isInputLayer);
-        for (int i = 0; i < size; i++) {
-            addNeuron(new Neuron());
+    public Layer(Layer previousLayer) {
+        this();
+        this.previousLayer = previousLayer;
+    }
+
+    public Layer(Layer previousLayer, Neuron bias) {
+        this(previousLayer);
+        this.bias = bias;
+        neurons.add(bias);
+    }
+
+    public List<Neuron> getNeurons() {
+        return this.neurons;
+    }
+
+    public void addNeuron(Neuron n) {
+        neurons.add(n);
+
+        if (previousLayer != null) {
+            for (Neuron previousLayerNeuron : previousLayer.getNeurons()) {
+                n.addInput(new Synapse(previousLayerNeuron, (Math.random() * 1) - 0.5));
+            }
         }
     }
 
-    // Adding a neuron to this layer
-    public void addNeuron(Neuron n) {
+    public void addNeuron(Neuron n, double[] weights) {
         neurons.add(n);
+        if (previousLayer != null) {
+            if (previousLayer.getNeurons().size() != weights.length) {
+                throw new IllegalArgumentException();
+            } else {
+                List<Neuron> previousLayerNeurons = previousLayer.getNeurons();
+                for (int i = 0; i < previousLayerNeurons.size(); i++) {
+                    n.addInput(new Synapse(previousLayerNeurons.get(i), weights[i]));
+                }
+            }
+        }
     }
 
-    public Neuron getNeuron(int n) {
-        return neurons.get(n);
+    public void feedForward() {
+        int biasCount = hasBias() ? 1 : 0;
+        for (int i = biasCount; i < neurons.size(); i++) {
+            neurons.get(i).activate();
+        }
     }
 
-    public boolean isInputLayer() {
-        return isInput;
+    public Layer getPreviousLayer() {
+        return this.previousLayer;
     }
 
-    public boolean isOutputLayer() {
-        return neurons.get(0).sizeOfNextLayer() == 0;
+    public void setPreviousLayer(Layer layer) {
+        this.previousLayer = layer;
     }
 
     public Layer getNextLayer() {
-        return nextLayer;
+        return this.nextLayer;
     }
 
-    public ArrayList<Neuron> getNeurons() {
-        return this.neurons;
-    }
-    // Connecting all the neurons in this layer to the neurons in the next one
-    public void connectToLayer(Layer layer) {
+    public void setNextLayer(Layer layer) {
         this.nextLayer = layer;
-        for (Neuron n1 : neurons) {
-            for (Neuron n2 : layer.neurons) {
-                n1.connectWeight(n2);
-            }
-        }
     }
 
-    public void inverseConnectToLayer(Layer layer) {
-        this.previousLayer = layer;
-        for (Neuron currentNeuron : neurons) {
-            for (Neuron prevNeuron : previousLayer.neurons) {
-                currentNeuron.inverseConnectWeight(prevNeuron);
-            }
-        }
+    public boolean isOutputLayer() {
+        return nextLayer == null;
     }
 
-    // Returning the number of neurons in this layer
-    public int size() {
-        return neurons.size();
-    }
-
-    // Applying the activation function and firing all the neurons in this layer
-    public void openFire() {
-        if (isInput) return;
-        for (Neuron n : neurons) {
-            n.activate();
-            n.fire();
-        }
-    }
-
-    // Taking an array of values to be sent through this layer to the next
-    public void predict(Double[] data) {
-        if (!isInput) {
-            return;
-        }
-        for (int i = 0; i < neurons.size(); i++) {
-            neurons.get(i).addToWeightedSum(data[i], true);
-        }
-        for (Neuron n : neurons) {
-            n.fire();
-        }
-    }
-
-    public Double[] getPrediction() {
-        if (neurons.get(0).sizeOfNextLayer() != 0) {
-            return null;
-        }
-        Double[] prediction = new Double[neurons.size()];
-        for (int i = 0; i < neurons.size(); i++) {
-            prediction[i] = neurons.get(i).getPrediction();
-        }
-        return prediction;
-    }
-
-    public ArrayList<Double> getWeights() {
-        ArrayList<Double> weights = new ArrayList<>();
-        for (Neuron neuron : neurons) {
-            for (Map.Entry<Neuron, Double> entry : neuron.getNextLayer().entrySet()) {
-                weights.add(entry.getValue());
-            }
-        }
-        return weights;
-    }
-
-    public void setWeights(ArrayList<Double> weights) {
-        for (Neuron neuron : neurons) {
-            for (Map.Entry<Neuron, Double> entry : neuron.getNextLayer().entrySet()) {
-                entry.setValue(weights.remove(0));
-            }
-        }
+    public boolean hasBias() {
+        return bias != null;
     }
 
 }

@@ -1,6 +1,8 @@
 package network;
 
-public class Synapse {
+import java.io.Serializable;
+
+public class Synapse implements Serializable {
 
     private Neuron sourceNeuron;
     private double weight;
