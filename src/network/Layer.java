@@ -52,7 +52,7 @@ public class Layer {
     }
 
     // Taking an array of values to be sent through this layer to the next
-    public void predict(double[] data) {
+    public void predict(Double[] data) {
         if (!isInput) {
             return;
         }
@@ -64,11 +64,11 @@ public class Layer {
         }
     }
 
-    public double[] getPrediction() {
+    public Double[] getPrediction() {
         if (neurons.get(0).sizeOfNextLayer() != 0) {
             return null;
         }
-        double[] prediction = new double[neurons.size()];
+        Double[] prediction = new Double[neurons.size()];
         for (int i = 0; i < neurons.size(); i++) {
             prediction[i] = neurons.get(i).getPrediction();
         }

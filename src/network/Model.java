@@ -2,8 +2,6 @@ package network;
 
 import java.util.*;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -39,7 +37,7 @@ public class Model {
     }
 
     // Taking an array of values and sending them through the model
-    public double[] predict(double[] data) {
+    public Double[] predict(Double[] data) {
         if (data.length != inputLayer.size()) {
             throw new InputMismatchException();
         }
@@ -83,6 +81,26 @@ public class Model {
 
     // Training the Neural Network through back propagation
     public void train(ArrayList<Double[][]> dataset) {
-
+        ArrayList<Double[]> inputs = new ArrayList<>();
+        ArrayList<Double[]> expectedOutputs = new ArrayList<>();
+        for (Double[][] value : dataset) {
+            inputs.add(value[0]);
+            expectedOutputs.add(value[1]);
+        }
+        ArrayList<Double[]> actualOutputs = new ArrayList<>();
+        for (Double[] val : inputs) {
+            actualOutputs.add(predict(val));
+        }
+        ArrayList<Double[]> errors = new ArrayList<>();
+        for (int i = 0; i < expectedOutputs.size(); i++) {
+            Double[] error = new Double[expectedOutputs.get(i).length];
+            for (int j = 0; j < expectedOutputs.get(i).length; j++) {
+                error[j] = 0.5 * Math.pow((actualOutputs.get(i)[j] - expectedOutputs.get(i)[j]), 2);
+            }
+            errors.add(error);
+        }
+        for (Double[] error : errors) {
+            System.out.println(Arrays.toString(error));
+        }
     }
 }
